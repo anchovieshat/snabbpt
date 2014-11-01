@@ -55,7 +55,7 @@ class Renderer:
         if not os.path.isdir(path):
             raise SnabbptException("{0} is not a directory".format(path))
         for file in self.get_files(path):
-            self.renderFile(file)
+            self.renderFile(os.path.join(path, file))
 
     def get_files(self, path):
         files = []
@@ -63,7 +63,7 @@ class Renderer:
             if file.startswith('.'):
                 continue
             if os.path.isdir(file) and file != self.outDir:
-                files.extend(list(map(lambda x: os.path.normpath(os.path.join(path, file, x)), self.get_files(file))))
+                files.extend(list(map(lambda x: os.path.normpath(os.path.join(path, file, x)), self.get_files(os.path.join(path, file)))))
             elif file.endswith(".md"):
                 files.append(file)
         return files
